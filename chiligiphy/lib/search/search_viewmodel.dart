@@ -12,6 +12,10 @@ class SearchViewModel extends BaseViewModel {
 
   final searchService = SearchService();
 
+  static const busyLoadingMore = 'busyLoadingMore';
+
+  static const double preloadDistance = 500;
+
   /// List of GIFs
   List<Gif> gifs = [];
 
@@ -20,6 +24,8 @@ class SearchViewModel extends BaseViewModel {
   /// Current search text
   String _searchText = '';
 
+  int _page = 1;
+
   /// Updates search text
   void updateSearchText(String value) {
     _searchText = value;
@@ -27,11 +33,20 @@ class SearchViewModel extends BaseViewModel {
 
   /// Fetches GIFs from API
   Future<void> search() async {
+    _page = 1;
     if (_searchText.isEmpty) {
       return;
     }
-    gifs = await searchService.search(query: _searchText);
+    final newGifs = await runBusyFuture(searchService.search(query: _searchText));
+    gifs = newGifs;
     notifyListeners();
+  }
+
+  /// Fetches more GIFs from API
+  Future<void> searchMore() async {
+    final newGifs =
+        await runBusyFuture(searchService.search(query: _searchText, page: ++_page), busyObject: busyLoadingMore);
+    gifs.addAll(newGifs);
   }
 
   /// Handles search text updated
@@ -42,6 +57,18 @@ class SearchViewModel extends BaseViewModel {
       // print(value);
       search();
     });
+  }
+
+  /// Handles user scroll
+  ///
+  /// If close to scroll limit, loads more gifs
+  bool onScrollNotification(ScrollNotification notification) {
+    if (!isBusy &&
+        !busy(busyLoadingMore) &&
+        notification.metrics.pixels >= notification.metrics.maxScrollExtent - preloadDistance) {
+      searchMore();
+    }
+    return true;
   }
 
   @override

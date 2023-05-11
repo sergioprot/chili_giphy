@@ -15,13 +15,21 @@ class SearchService {
     sendTimeout: const Duration(seconds: 10),
   ));
 
+  static const int perPage = 10;
+
   /// Fetches GIFs from API.
   ///
   /// Returns them as a List
   Future<List<Gif>> search({
     required String query,
+    int page = 1,
   }) async {
-    final response = await dio.get('search', queryParameters: {'q': query});
+    int offset = (page - 1) * 10;
+    final response = await dio.get('search', queryParameters: {
+      'q': query,
+      'limit': perPage,
+      'offset': offset,
+    });
     List<Gif> gifs = [];
     for (var item in (response.data['data'] as List)) {
       gifs.add(Gif.fromJson(item));

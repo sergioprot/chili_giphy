@@ -28,17 +28,20 @@ class SearchView extends StatelessWidget {
                 onSubmitted: (_) => model.search(),
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      for (var item in model.gifs)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.network(
-                            item.url,
+                child: NotificationListener(
+                  onNotification: model.onScrollNotification,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        for (var item in model.gifs)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.network(
+                              item.url,
+                            ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
