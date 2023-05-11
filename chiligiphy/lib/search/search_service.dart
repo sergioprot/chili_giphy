@@ -15,7 +15,7 @@ class SearchService {
     sendTimeout: const Duration(seconds: 10),
   ));
 
-  static const int perPage = 25;
+  static int perPage = 25;
 
   /// Fetches GIFs from API.
   ///
@@ -24,7 +24,7 @@ class SearchService {
     required String query,
     int page = 1,
   }) async {
-    int offset = (page - 1) * 10;
+    int offset = (page - 1) * perPage;
     final response = await dio.get('search', queryParameters: {
       'q': query,
       'limit': perPage,

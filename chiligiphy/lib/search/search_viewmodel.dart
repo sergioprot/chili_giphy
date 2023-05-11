@@ -11,26 +11,34 @@ class SearchViewModel extends BaseViewModel {
   /// Search field timer
   Timer? _debounce;
 
-  final searchService = SearchService();
+  /// Search Service (API)
+  SearchService searchService = SearchService();
 
+  /// Loading more busy indicator
   static const busyLoadingMore = 'busyLoadingMore';
 
+  /// If [preloadDistance] pixels left till maximum scroll range, will fetch more GIFs
   static const double preloadDistance = 500;
 
   /// List of GIFs
   List<Gif> gifs = [];
 
+  /// Search text field controller
   final TextEditingController searchController = TextEditingController();
 
   /// Current search text
   String _searchText = '';
   String get searchText => _searchText;
 
+  /// API page number
+  ///
+  /// API doesn't really have "pages", it has "limit" and "offset" instead. But that's what SearchService will handle.
   int _page = 1;
 
   /// Updates search text
   void updateSearchText(String value) {
     _searchText = value;
+    notifyListeners();
   }
 
   /// Fetches GIFs from API
@@ -49,6 +57,7 @@ class SearchViewModel extends BaseViewModel {
     final newGifs =
         await runBusyFuture(searchService.search(query: _searchText, page: ++_page), busyObject: busyLoadingMore);
     gifs.addAll(newGifs);
+    notifyListeners();
   }
 
   /// Handles search text updated
