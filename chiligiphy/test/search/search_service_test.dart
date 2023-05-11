@@ -1,3 +1,4 @@
+import 'package:chiligiphy/search/search_constants.dart';
 import 'package:chiligiphy/search/search_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
@@ -12,7 +13,7 @@ void main() {
     dioAdapter.onGet(
         'search',
         queryParameters: {
-          'api_key': 'lIQQ04DzQai4aR3sekuMLXfHiYsjzILX',
+          'api_key': SearchConstants.apiKey,
           'q': 'query',
           'limit': 2,
           'offset': 0,
@@ -44,7 +45,7 @@ void main() {
     dioAdapter.onGet(
         'search',
         queryParameters: {
-          'api_key': 'lIQQ04DzQai4aR3sekuMLXfHiYsjzILX',
+          'api_key': SearchConstants.apiKey,
           'q': 'query',
           'limit': 2,
           'offset': 2,

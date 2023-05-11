@@ -63,9 +63,9 @@ class SearchViewModel extends BaseViewModel {
   /// Handles search text updated
   void onChanged(value) {
     updateSearchText(value);
+    // https://stackoverflow.com/questions/51791501/how-to-debounce-textfield-onchange-in-dart/57207610#57207610
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 300), () {
-      // print(value);
       search();
     });
   }
