@@ -15,7 +15,7 @@ class SearchService {
     sendTimeout: const Duration(seconds: 10),
   ));
 
-  static const int perPage = 10;
+  static const int perPage = 25;
 
   /// Fetches GIFs from API.
   ///

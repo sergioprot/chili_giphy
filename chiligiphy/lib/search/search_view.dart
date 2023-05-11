@@ -35,40 +35,66 @@ class SearchView extends StatelessWidget {
                     onSubmitted: (_) => model.search(),
                   ),
                 ),
-                Expanded(
-                  child: NotificationListener(
-                    onNotification: model.onScrollNotification,
-                    child: MasonryGridView.count(
-                      itemCount: model.gifs.length,
-                      crossAxisCount: model.getColumnAmount(screenWidth),
-                      mainAxisSpacing: padding,
-                      crossAxisSpacing: padding,
-                      itemBuilder: (context, index) {
-                        final item = model.gifs.elementAt(index);
-                        double width;
-                        double height;
-                        (width, height) = model.getGifSize(item, screenWidth: screenWidth);
-                        return ClipRRect(
-                          borderRadius: const BorderRadius.all(Radius.circular(4)),
-                          child: Image.network(
-                            item.url,
-                            width: width,
-                            height: height,
-                            loadingBuilder: (context, child, progress) => progress == null
-                                ? child
-                                : SizedBox(
-                                    width: width,
-                                    height: height,
-                                    child: const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  ),
+                model.hasError
+                    ? Column(
+                        children: [
+                          const Center(
+                            child: Text('Unknown Error. Try again'),
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: () => model.search(),
+                              child: const Text('Try Again'),
+                            ),
+                          ),
+                        ],
+                      )
+                    : model.isBusy
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : model.gifs.isEmpty
+                            ? model.searchText.isEmpty
+                                ? const Center(
+                                    child: Text('Search for GIFs by entering text above'),
+                                  )
+                                : const Center(
+                                    child: Text('Sorry, no GIFs for your request'),
+                                  )
+                            : Expanded(
+                                child: NotificationListener(
+                                  onNotification: model.onScrollNotification,
+                                  child: MasonryGridView.count(
+                                    itemCount: model.gifs.length,
+                                    crossAxisCount: model.getColumnAmount(screenWidth),
+                                    mainAxisSpacing: padding,
+                                    crossAxisSpacing: padding,
+                                    itemBuilder: (context, index) {
+                                      final item = model.gifs.elementAt(index);
+                                      double width;
+                                      double height;
+                                      (width, height) = model.getGifSize(item, screenWidth: screenWidth);
+                                      return ClipRRect(
+                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                        child: Image.network(
+                                          item.url,
+                                          width: width,
+                                          height: height,
+                                          loadingBuilder: (context, child, progress) => progress == null
+                                              ? child
+                                              : SizedBox(
+                                                  width: width,
+                                                  height: height,
+                                                  child: const Center(
+                                                    child: CircularProgressIndicator(),
+                                                  ),
+                                                ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
               ],
             ),
           ),

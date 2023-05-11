@@ -24,6 +24,7 @@ class SearchViewModel extends BaseViewModel {
 
   /// Current search text
   String _searchText = '';
+  String get searchText => _searchText;
 
   int _page = 1;
 
