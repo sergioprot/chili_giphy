@@ -10,9 +10,9 @@ class SearchService {
     queryParameters: {
       'api_key': 'lIQQ04DzQai4aR3sekuMLXfHiYsjzILX',
     },
-    connectTimeout: const Duration(seconds: 5),
-    receiveTimeout: const Duration(seconds: 5),
-    sendTimeout: const Duration(seconds: 5),
+    connectTimeout: const Duration(seconds: 10),
+    receiveTimeout: const Duration(seconds: 10),
+    sendTimeout: const Duration(seconds: 10),
   ));
 
   /// Fetches GIFs from API.
@@ -26,6 +26,8 @@ class SearchService {
     for (var item in (response.data['data'] as List)) {
       gifs.add(Gif.fromJson(item));
     }
+    // print(gifs.length);
+    // print(query);
     return gifs;
   }
 }

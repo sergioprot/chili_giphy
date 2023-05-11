@@ -24,7 +24,7 @@ class SearchView extends StatelessWidget {
                   hintText: 'Search for GIFs',
                   suffixIcon: Icon(Icons.search),
                 ),
-                onChanged: (value) => model.updateSearchText(value),
+                onChanged: model.onChanged,
                 onSubmitted: (_) => model.search(),
               ),
               Expanded(

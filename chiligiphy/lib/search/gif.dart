@@ -19,9 +19,10 @@ class Gif {
 
   /// Gif factory from API data
   factory Gif.fromJson(final json) {
-    String url = json['images']['original']['url'] as String;
-    double width = double.parse(json['images']['original']['width'] as String);
-    double height = double.parse(json['images']['original']['height'] as String);
+    String type = 'preview_gif';
+    String url = json['images'][type]['url'] as String;
+    double width = double.parse(json['images'][type]['width'] as String);
+    double height = double.parse(json['images'][type]['height'] as String);
     return Gif(
       url: url,
       width: width,
