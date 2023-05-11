@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:chiligiphy/search/gif.dart';
 import 'package:chiligiphy/search/search_service.dart';
+import 'package:chiligiphy/search/search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -69,6 +70,23 @@ class SearchViewModel extends BaseViewModel {
       searchMore();
     }
     return true;
+  }
+
+  /// Returns width and height of image
+  (double, double) getGifSize(
+    Gif gif, {
+    required double screenWidth,
+  }) {
+    int columns = getColumnAmount(screenWidth);
+    double availableWidth = screenWidth - SearchView.padding * (columns + 1);
+    double width = availableWidth / columns;
+    double height = (gif.height * width) / gif.width;
+    return (width, height);
+  }
+
+  /// Returns the amount of columns for MasonryGridView
+  int getColumnAmount(double screenWidth) {
+    return (screenWidth / 300).ceil();
   }
 
   @override
