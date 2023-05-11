@@ -2,6 +2,18 @@
 
 Test task for Chili Labs
 
+Added 'app-profile.apk' file to repository root.
+
+All required and additional tasks completed:
+- Live search implemented
+- Results are displayed via MasonryGridView
+- Pagination implemented
+- UI is responsive. In my phone, for example, I see two columns of GIFs in portrait mode, and three columns in landscape mode.
+- New GIFs are loading before user reaches the end of the screen
+- Stacked is used for state management
+- Business logic is separated from the UI
+- Unit tests has been written
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

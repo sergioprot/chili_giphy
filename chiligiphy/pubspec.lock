@@ -204,7 +204,7 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
+      ref: abdb8f70ff6d14417068b874c64d3ab13a3bb65e
       resolved-ref: abdb8f70ff6d14417068b874c64d3ab13a3bb65e
       url: "https://github.com/martinale14/stacked.git"
     source: git
